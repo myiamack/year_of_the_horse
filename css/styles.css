@@ -1,0 +1,1039 @@
+/* ============================================================
+   styles.css  -  HOW MY WALL LOOKS
+   ------------------------------------------------------------
+   CSS is the "outfit" for the page: colors, fonts, sizes and spacing.
+   A rule looks like this:
+
+       .frame {            <- WHO it's for (a class from the HTML)
+         width: 170px;     <- WHAT to change : HOW to change it
+       }
+
+   A name starting with a dot (.frame) matches class="frame" in the HTML.
+   A name starting with # (#play) matches id="play".
+   px = pixels, the tiny dots on a screen.
+   ============================================================ */
+
+
+/* ============================================================
+   1. COLORS AND FONTS
+   Change a color here once and it changes everywhere. var(--red) means "use my red".
+   ============================================================ */
+/* The Fire Horse lucky colors are red, green and yellow (gold). */
+:root {
+  --floor: #e4e1dc;
+  --wall: #fbfaf7;
+  --wall-shade: #efece6;
+  --ink: #23211e;
+  --muted: #6b665e;
+  --rule: #d6d1c8;
+  --red: #a8231b;
+  --gold: #c99a1e;
+  --green: #2f5d4e;
+  --serif: "Bodoni Moda", "Didot", Georgia, serif;
+  --sans: "Work Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+
+
+/* ============================================================
+   2. BASICS
+   Rules for the whole page: the background, the main font, and buttons.
+   ============================================================ */
+* {
+  box-sizing: border-box
+}
+
+[hidden] {
+  display: none !important
+}
+
+html,
+body {
+  background: var(--floor);
+  color: var(--ink)
+}
+
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-block: 26px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 18px
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--red)
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(30px, 5vw, 50px);
+  line-height: 1.02;
+  margin: 6px 0 4px;
+  text-wrap: balance
+}
+
+.sub {
+  margin: 0;
+  color: var(--muted);
+  max-width: 58ch
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--ink);
+  background: var(--wall);
+  color: var(--ink);
+  border-radius: 0;
+  padding: 9px 14px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center
+}
+
+button:hover {
+  background: var(--wall-shade)
+}
+
+button:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px
+}
+
+#play {
+  background: var(--ink);
+  color: var(--wall);
+  font-weight: 500;
+  padding: 10px 18px
+}
+
+#play:hover {
+  background: #3a3631
+}
+
+.icon {
+  width: 13px;
+  height: 13px;
+  display: block
+}
+
+
+/* ============================================================
+   3. THE WALL
+   The long gallery wall you scroll sideways, its plaster texture, the wood trim at the bottom, and the giant faint word HORSE.
+   ============================================================ */
+.wall {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: linear-gradient(180deg, var(--wall) 0%, var(--wall) 86%, var(--wall-shade) 100%);
+  border-top: 10px solid #d9d4cc;
+  box-shadow: inset 0 30px 40px -30px rgba(0, 0, 0, .18);
+  scroll-behavior: smooth;
+  scrollbar-width: thin
+}
+
+.track {
+  position: relative;
+  display: flex;
+  width: max-content;
+  padding: 0 40vw 0 30px;
+  background: repeating-linear-gradient(90deg, rgba(0, 0, 0, .006) 0 2px, transparent 2px 7px), repeating-linear-gradient(0deg, rgba(0, 0, 0, .005) 0 1px, transparent 1px 5px)
+}
+
+/* Gallery wainscoting: chair rail, panel molding and baseboard along the bottom of the wall */
+.track::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 54px;
+  pointer-events: none;
+  background: linear-gradient(180deg, #cfc8bc 0 3px, #f1ede6 3px 6px, transparent 6px),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(0, 0, 0, .07) 18px 19px, transparent 19px 172px, rgba(0, 0, 0, .07) 172px 173px, transparent 173px 190px),
+    linear-gradient(180deg, transparent 0 40px, #3a3631 40px 42px, #5b554d 42px)
+}
+
+.bigword {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 420px;
+  line-height: 1;
+  color: var(--ink);
+  opacity: .035;
+  white-space: nowrap;
+  letter-spacing: .04em;
+  padding-left: 60px
+}
+
+
+/* The timeline line (the "rail"), the red part that fills in as the tour moves,
+   and the red arrow tip that slides along it like a song's progress bar. */
+.rail {
+  position: absolute;
+  left: 0;
+  right: 120px;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  background: var(--ink)
+}
+
+.rail::after {
+  content: "";
+  position: absolute;
+  right: -26px;
+  top: -11px;
+  border-left: 28px solid var(--ink);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent
+}
+
+.rail-done {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  background: var(--red);
+  width: 0;
+  transition: width 1s ease
+}
+
+.rail-tip {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  margin-top: -13px;
+  border-left: 24px solid var(--red);
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  z-index: 2;
+  transition: transform 1s ease;
+  pointer-events: none
+}
+
+.wall.touring .rail-done,
+.wall.touring .rail-tip {
+  transition: none
+}
+
+
+/* ============================================================
+   4. THE YEARS (stations)
+   Each year is a "station". When one is selected, the others fade and blur.
+   ============================================================ */
+.station {
+  position: relative;
+  width: 380px;
+  height: 880px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 64px minmax(0, 1fr);
+  padding: 0 22px;
+  transition: opacity .5s ease, filter .5s ease
+}
+
+.wall.focus .station:not(.active) {
+  opacity: .35;
+  filter: blur(3px)
+}
+
+.wall.focus .station:not(.active):hover {
+  opacity: .7;
+  filter: blur(1px)
+}
+
+
+/* The "bridge": the stop between two years (the 2026 to 2027 commencement diamond). */
+.bridge {
+  position: relative;
+  width: 180px;
+  height: auto;
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 64px minmax(0, 1fr);
+  transition: opacity .5s ease, filter .5s ease
+}
+
+.bridge .b-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 4px;
+  text-align: center
+}
+
+.bridge .frame {
+  width: 140px;
+  border-width: 5px;
+  padding: 5px
+}
+
+.b-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  color: var(--red)
+}
+
+.b-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.b-dot {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 3px solid var(--wall);
+  background: var(--gold);
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 2px var(--ink);
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: transform .3s, background .3s
+}
+
+.b-dot:hover,
+.bridge.lit .b-dot {
+  background: var(--red);
+  transform: rotate(45deg) scale(1.2)
+}
+
+.b-dot:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 4px
+}
+
+.b-cap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  line-height: 1.35
+}
+
+.b-cap b {
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: .06em;
+  text-transform: uppercase
+}
+
+.wall.focus .bridge:not(.lit) {
+  opacity: .35;
+  filter: blur(3px)
+}
+
+
+/* Each station has a top half, the dot on the line, and a bottom half. */
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0
+}
+
+.cell.top {
+  justify-content: flex-end;
+  padding-bottom: 4px;
+  padding-top: 24px
+}
+
+.cell.bottom {
+  justify-content: flex-start;
+  padding-top: 10px;
+  padding-bottom: 70px
+}
+
+.marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.stem {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ink);
+  height: 22px
+}
+
+.station.up .stem {
+  bottom: 60%
+}
+
+.station.down .stem {
+  top: 60%
+}
+
+.dot {
+  position: relative;
+  z-index: 1;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 4px solid var(--wall);
+  box-shadow: 0 0 0 2px var(--ink);
+  cursor: pointer;
+  padding: 0;
+  transition: transform .3s, background .3s
+}
+
+.station.active .dot {
+  background: var(--red);
+  transform: scale(1.3)
+}
+
+
+/* The museum label: the big year, era tag, title, fortune, reflection and song. */
+.yr {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 58px;
+  line-height: .95;
+  color: var(--ink);
+  margin: 0
+}
+
+.station.active .yr {
+  color: var(--red)
+}
+
+.era {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center
+}
+
+.tag {
+  border: 1px solid currentColor;
+  padding: 1px 7px
+}
+
+.tag.real {
+  color: var(--red)
+}
+
+.tag.sample {
+  color: var(--green)
+}
+
+.ttl {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance
+}
+
+.fortune {
+  margin: 0;
+  font-style: italic;
+  color: var(--ink);
+  border-left: 3px solid var(--gold);
+  padding-left: 10px;
+  font-size: 14px
+}
+
+.refl {
+  margin: 0;
+  color: #3d3a35;
+  font-size: 13px;
+  line-height: 1.55
+}
+
+.refl p {
+  margin: 0 0 6px
+}
+
+.song {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted)
+}
+
+.song b {
+  font-weight: 500;
+  color: var(--ink)
+}
+
+
+/* ============================================================
+   5. PICTURE FRAMES
+   The black gallery frames, the brass picture light above them, and the frame sizes (main, small, wide, full, half).
+   ============================================================ */
+.frames {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 0;
+  margin-top: 26px
+}
+
+/* The brass picture light over each year's photos. It switches on when the year is selected. */
+.frames::before {
+  content: "";
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  width: 96px;
+  height: 9px;
+  margin-left: -48px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #e2c06a, #9a7424);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .3);
+  transition: filter .6s
+}
+
+.frames::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -16px;
+  left: -28px;
+  right: -28px;
+  height: 85%;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 100% at 50% 0, rgba(255, 206, 120, .55), rgba(255, 206, 120, .18) 45%, transparent 75%);
+  opacity: .25;
+  transition: opacity .8s ease
+}
+
+.station.active .frames::after {
+  opacity: 1
+}
+
+.station.active .frames::before {
+  filter: brightness(1.25) drop-shadow(0 0 6px rgba(255, 200, 100, .9))
+}
+
+
+/* One frame. The size words from years-data.js (small, wide, full, half)
+   become classes here and change the frame's width and shape. */
+.frame {
+  display: block;
+  padding: 7px;
+  background: #fff;
+  border: 7px solid var(--ink);
+  box-shadow: 0 10px 18px -8px rgba(0, 0, 0, .35);
+  cursor: zoom-in;
+  width: 170px;
+  transition: transform .2s
+}
+
+.frame.wide {
+  width: 230px
+}
+
+.frame.wide .ph {
+  aspect-ratio: 16/9
+}
+
+.frame.small {
+  width: 118px;
+  border-width: 5px;
+  padding: 5px;
+  margin-top: 22px
+}
+
+.frame.full {
+  width: 308px
+}
+
+.frame.full .ph {
+  aspect-ratio: 16/9
+}
+
+.frame.half {
+  width: 148px
+}
+
+.frame.half .ph {
+  aspect-ratio: 3/4
+}
+
+.frame:hover {
+  transform: translateY(-3px)
+}
+
+.frame:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 3px
+}
+
+.frame .ph {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--wall-shade)
+}
+
+.frame img,
+.frame svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block
+}
+
+.frame-cap {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 4px
+}
+
+.frame.small+.frame-cap {
+  max-width: 118px;
+  line-height: 1.35
+}
+
+.hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted)
+}
+
+
+/* The closing line at the very end of the wall. */
+.final {
+  width: 340px;
+  height: 880px;
+  display: flex;
+  align-items: center;
+  padding-left: 60px
+}
+
+.final-box {
+  border: 3px solid var(--ink);
+  padding: 22px;
+  background: var(--wall)
+}
+
+.final-box p {
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 0
+}
+
+.final-box em {
+  color: var(--red);
+  font-style: normal;
+  font-weight: 700
+}
+
+
+/* ============================================================
+   6. AUDIO GUIDE
+   The dark bar at the bottom with the song name, the Spotify player, the progress bar, the clock and the dancing bars.
+   ============================================================ */
+.guide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--ink);
+  color: var(--wall);
+  padding: 12px 16px;
+  flex-wrap: wrap
+}
+
+.guide .lbl {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold)
+}
+
+.guide .now {
+  flex: 1 1 240px;
+  min-width: 0
+}
+
+.guide .now div {
+  font-size: 14px
+}
+
+.guide small {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #b9b2a6
+}
+
+.bar {
+  flex: 1 1 200px;
+  height: 4px;
+  background: #4a453e;
+  position: relative
+}
+
+.bar i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--gold);
+  width: 0
+}
+
+.time {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: #d9d2c6
+}
+
+.eq {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 16px;
+  width: 20px
+}
+
+.eq span {
+  width: 3px;
+  height: 4px;
+  background: var(--gold)
+}
+
+.on .eq span {
+  animation: eq 1s ease-in-out infinite
+}
+
+.on .eq span:nth-child(2) {
+  animation-delay: .25s
+}
+
+.on .eq span:nth-child(3) {
+  animation-delay: .5s
+}
+
+.on .eq span:nth-child(4) {
+  animation-delay: .15s
+}
+
+@keyframes eq {
+
+  0%,
+  100% {
+    height: 3px
+  }
+
+  50% {
+    height: 16px
+  }
+}
+
+
+/* ============================================================
+   7. CREDITS NOTE
+   The small print under the wall.
+   ============================================================ */
+.note {
+  color: var(--muted);
+  font-size: 12.5px;
+  border-top: 1px solid #cfc9bf;
+  padding-top: 12px
+}
+
+.note p {
+  margin: 0 0 6px;
+  max-width: 90ch
+}
+
+.note strong {
+  color: var(--ink)
+}
+
+
+/* ============================================================
+   8. POP-UPS
+   The card that opens over the page for a photo or a full reflection.
+   ============================================================ */
+.pop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(20, 18, 16, .78);
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))
+}
+
+.pop-card {
+  background: var(--wall);
+  max-width: min(720px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 14px;
+  border: 8px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: popin .25s ease
+}
+
+@keyframes popin {
+  from {
+    transform: scale(.94);
+    opacity: 0
+  }
+
+  to {
+    transform: none;
+    opacity: 1
+  }
+}
+
+.pop-card .big {
+  background: var(--wall-shade);
+  display: grid;
+  place-items: center
+}
+
+.pop-card .big img,
+.pop-card .big svg {
+  max-width: 100%;
+  max-height: 68vh;
+  display: block
+}
+
+
+.pop-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px
+}
+
+.pop.auto {
+  background: rgba(20, 18, 16, .6)
+}
+
+.more {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  align-self: flex-start
+}
+
+.more:hover {
+  background: none;
+  color: var(--ink)
+}
+
+.pop-text {
+  padding: 18px 20px;
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.6;
+  place-self: stretch;
+  background: var(--wall)
+}
+
+.pop-text h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 26px;
+  margin: 4px 0 12px
+}
+
+.pop-text p {
+  margin: 0 0 12px
+}
+
+.dish-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border-top: 1px solid var(--rule);
+  padding-top: 12px
+}
+
+.dish-img {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border: 4px solid var(--ink);
+  background: #fff;
+  padding: 3px
+}
+
+.dish-img {
+  cursor: zoom-in
+}
+
+.dish-img:hover {
+  background: #fff
+}
+
+.dish-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block
+}
+
+.pop-text .dish {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0;
+  min-width: 0
+}
+
+.pop-row .cap {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  flex: 1
+}
+
+.pop-row .more {
+  align-self: center;
+  white-space: nowrap
+}
+
+
+/* ============================================================
+   9. SMALL SCREENS (phones)
+   Everything inside @media (max-width:600px) only happens on screens 600px wide or smaller.
+   ============================================================ */
+@media (max-width:600px) {
+  .station {
+    width: 300px;
+    padding: 0 16px
+  }
+
+  .yr {
+    font-size: 46px
+  }
+
+  .frame {
+    width: 140px
+  }
+
+  .frame.wide {
+    width: 190px
+  }
+
+  .frame.wide {
+    width: 230px
+  }
+
+  .frame.wide .ph {
+    aspect-ratio: 16/9
+  }
+
+  .frame.small {
+    width: 100px
+  }
+
+  .frame.small+.frame-cap {
+    max-width: 100px
+  }
+
+  .frame.full {
+    width: 268px
+  }
+
+  .frame.half {
+    width: 128px
+  }
+}
+
+
+/* ============================================================
+   10. LESS MOTION
+   Some people turn on "reduce motion" in their settings because animation can make them dizzy. This turns off the movement for them.
+   ============================================================ */
+@media (prefers-reduced-motion:reduce) {
+  .wall {
+    scroll-behavior: auto
+  }
+
+  .station,
+  .rail-done,
+  .dot,
+  .frame {
+    transition: none
+  }
+
+  .on .eq span {
+    animation: none;
+    height: 9px
+  }
+
+  .pop-card {
+    animation: none
+  }
+}
