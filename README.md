@@ -13,8 +13,6 @@ The wall is told backward in time. It starts in 2054 and walks back to 2025 to s
 | Near future | 2027, 2028, 2029 |
 | Long-range vision | 2034, 2039, 2044, 2049, 2054 |
 
-Each year has a title, a fortune, images, a reflection, a favorite dish and a soundtrack song.
-
 ## How to view it
 
 - **Start the tour** gives each year 30 seconds. The red arrow on the rail moves like a song's progress bar, and photos pop up one after another.
